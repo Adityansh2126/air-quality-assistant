@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clear Air: winter smog assistant</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#result">Skip to results</a>
+<header>
+  <h1>Clear Air</h1>
+  <p>Check today's air quality in your city and get low-emission routines, indoor air hacks and greener swaps that fit your life, with the impact of each choice explained.</p>
+</header>
+<main>
+  <form id="f" novalidate>
+    <div class="field"><label for="city">City</label><input id="city" name="city" maxlength="80" required placeholder="Delhi" autocomplete="address-level2"></div>
+    <div class="field"><label for="household">Who needs the most protection?</label>
+      <select id="household" name="household"><option value="adults">Healthy adults</option><option value="children">Children</option><option value="elderly">Older adults</option><option value="breathing">Someone with breathing problems</option></select></div>
+    <div class="field"><label for="commute">Usual way to travel</label>
+      <select id="commute" name="commute"><option value="car">Car</option><option value="twowheeler">Two-wheeler</option><option value="bus">Bus</option><option value="metro">Metro or train</option><option value="bike">Bicycle</option><option value="walk">Walking</option><option value="remote">Work from home</option></select></div>
+    <div class="field"><label for="commuteKm">One-way distance (km)</label><input id="commuteKm" name="commuteKm" type="number" min="0" max="200" value="8"></div>
+    <div class="field wide"><label for="notes">Anything else about your routine or home</label><input id="notes" name="notes" maxlength="200" placeholder="Two kids walk to school, we cook with gas"></div>
+    <div class="field wide check"><label><input id="purifier" name="purifier" type="checkbox"> We have an air purifier at home</label></div>
+    <div id="manual-wrap" class="field wide" hidden><label for="manualAqi">Today's AQI (0 to 500)</label><input id="manualAqi" name="manualAqi" type="number" min="0" max="500"></div>
+    <p id="err" class="error" role="alert"></p>
+    <button id="go" type="submit">Get my air plan</button>
+  </form>
+  <section id="result" aria-live="polite" tabindex="-1"></section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
