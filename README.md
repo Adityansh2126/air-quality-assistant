@@ -12,11 +12,17 @@ npm test
 Without a key, or if Gemini is busy, the app falls back to rule-based advice, so it never breaks.
 
 ## How it works
-- `air.js`: live US AQI and PM2.5 from Open-Meteo (no key); if the city cannot be found the user can enter the AQI manually
-- `planner.js`: validation, AQI bands, commute CO2 estimates, output sanitising, rule-based fallback
+- `server.js`: Express app factory wiring middleware and routes (dependencies injectable for tests)
+- `handler.js`: the `/api/advice` flow: validate, resolve AQI, cache, AI, rule-based fallback
+- `middleware.js`: security headers and JSON error handling
+- `air.js`: live US AQI and PM2.5 from Open-Meteo (no key); the user can enter the AQI if a city is not found
 - `gemini.js`: Gemini client with timeout, one retry on 429/500/503, and a fallback model
-- `server.js`: Express app factory, security headers, gzip, caching, rate limiting
-- `utils.js`, `config.js`: TTL cache, bounded rate limiter, settings
+- `validation.js`, `aqi.js`, `impact.js`, `advice.js`: input validation, AQI bands, commute CO2 estimates, output sanitising and rule-based advice (re-exported by `planner.js`)
+- `utils.js`, `text.js`, `config.js`: TTL cache, bounded rate limiter, text helpers, settings
+- `public/render.js` builds the results view; `public/app.js` handles the form
+
+## Quality checks
+`npm run check` runs ESLint and the test suite (offline, AI and network stubbed).
 
 ## Security
 API key stays server-side; strict CSP, HSTS and related headers; server-side validation and length caps; control characters stripped; per-IP rate limit with a bounded client table; model output length-clamped and rendered with `textContent`; user notes passed to the model as data, not instructions; upstream error bodies never logged or returned.
